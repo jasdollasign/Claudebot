@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "claude-mem-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "claude-mem@claude-mem-marketplace": true
+  },
   "hooks": {
     "SessionStart": [
       {
