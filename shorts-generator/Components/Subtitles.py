@@ -36,30 +36,30 @@ def add_subtitles_to_video(input_video, output_video, transcriptions, video_star
     # Create text clips for each transcription segment
     text_clips = []
     
-    # Scale font size proportionally to video height (~6.5% of height)
-    # 1080p → 70px, 720p → 47px
-    dynamic_fontsize = int(video.h * 0.065)
-    
+    # Scale font size proportionally to video height (~8% of height for motivation impact)
+    # 1080p → 86px, 720p → 58px — bigger = more punch
+    dynamic_fontsize = int(video.h * 0.08)
+
     for text, start, end in relevant_transcriptions:
-        # Clean up text
-        text = text.strip()
+        # Clean up text — uppercase for motivation shorts impact
+        text = text.strip().upper()
         if not text:
             continue
-            
-        # Create text clip with styling
+
+        # Create text clip with bold motivation styling
         txt_clip = TextClip(
             text,
             fontsize=dynamic_fontsize,
-            color='#2699ff',
+            color='white',
             stroke_color='black',
-            stroke_width=2,
-            font='Franklin-Gothic',
+            stroke_width=4,
+            font='Impact',
             method='caption',
-            size=(video.w - 100, None)  # Leave 50px margin on each side
+            size=(video.w - 80, None)  # Leave 40px margin on each side
         )
-        
-        # Position at bottom center
-        txt_clip = txt_clip.set_position(('center', video.h - txt_clip.h - 100))
+
+        # Position center-bottom (above safe zone)
+        txt_clip = txt_clip.set_position(('center', video.h - txt_clip.h - 150))
         txt_clip = txt_clip.set_start(start)
         txt_clip = txt_clip.set_duration(end - start)
         

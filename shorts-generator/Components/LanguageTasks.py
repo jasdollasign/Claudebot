@@ -25,13 +25,24 @@ class JSONResponse(BaseModel):
     end: float = Field(description="End time for the highlighted clip")
 
 system = """
-The input contains a timestamped transcription of a video.
-Select a 2-minute segment from the transcription that contains something interesting, useful, surprising, controversial, or thought-provoking.
-The selected text should contain only complete sentences.
-Do not cut the sentences in the middle.
-The selected text should form a complete thought.
+The input contains a timestamped transcription of a motivational video.
+Your job is to find the single most POWERFUL 30-60 second clip that would go viral as a YouTube Short.
+
+Look for segments that contain:
+- A hard-hitting truth or wake-up call
+- An emotional turning point or personal story
+- A memorable one-liner or quotable moment
+- An urgent call to action about discipline, mindset, or purpose
+- A moment where the speaker's energy peaks
+
+The selected text MUST:
+- Contain only complete sentences — never cut mid-sentence
+- Form a complete, self-contained thought (no dangling references)
+- Be 30-60 seconds in duration (ideal for Shorts)
+- Start strong — the first sentence should hook the viewer immediately
+
 Return a JSON object with the following structure:
-## Output 
+## Output
 [{{
     start: "Start time of the segment in seconds (number)",
     content: "The transcribed text from the selected segment (clean text only, NO timestamps)",
