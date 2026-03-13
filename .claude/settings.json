@@ -5,10 +5,17 @@
         "source": "github",
         "repo": "thedotmack/claude-mem"
       }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
     }
   },
   "enabledPlugins": {
-    "claude-mem@claude-mem-marketplace": true
+    "claude-mem@claude-mem-marketplace": true,
+    "superpowers@superpowers-marketplace": true
   },
   "hooks": {
     "SessionStart": [
