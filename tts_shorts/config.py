@@ -6,8 +6,13 @@ load_dotenv()
 
 
 class Config:
-    # API Keys
+    # API Keys — set ONE of these in .env
     ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+    OPENROUTER_API_KEY: str = os.getenv("OPENROUTER_API_KEY", "")
+
+    # Model names per provider
+    ANTHROPIC_MODEL: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
+    OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4.5")
 
     # TTS
     TTS_VOICE: str = os.getenv("TTS_VOICE", "en-US-AriaNeural")
@@ -21,9 +26,6 @@ class Config:
 
     # How many words to show at once
     WORDS_PER_CHUNK: int = int(os.getenv("WORDS_PER_CHUNK", "4"))
-
-    # Claude model
-    MODEL: str = "claude-sonnet-4-6"
 
     # Output
     OUTPUT_DIR: Path = Path("output")

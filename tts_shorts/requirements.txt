@@ -1,5 +1,6 @@
-# Core AI
+# Core AI — install whichever you use (or both)
 anthropic>=0.40.0
+openai>=1.40.0
 
 # Text-to-Speech (Microsoft neural voices, free, no API key needed)
 # Falls back to pyttsx3+espeak-ng when offline (apt install espeak-ng)

@@ -138,8 +138,9 @@ def main() -> None:
         print(f"Queue: {n} topic(s) remaining")
         return
 
-    if not Config.ANTHROPIC_API_KEY:
-        print("Error: ANTHROPIC_API_KEY not set. Add it to tts_shorts/.env")
+    if not (Config.ANTHROPIC_API_KEY or Config.OPENROUTER_API_KEY):
+        print("Error: No API key set.")
+        print("Add either ANTHROPIC_API_KEY (sk-ant-...) or OPENROUTER_API_KEY (sk-or-...) to tts_shorts/.env")
         sys.exit(1)
 
     Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
