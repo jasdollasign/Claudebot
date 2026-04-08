@@ -48,7 +48,7 @@ def _parse_args() -> argparse.Namespace:
         "--rate",
         default=None,
         metavar="RATE",
-        help=f"TTS speaking rate, e.g. +20%% (default: {Config.TTS_RATE})",
+        help="TTS speaking rate, e.g. +20%% (default: value from .env)",
     )
     p.add_argument(
         "--words",
@@ -102,6 +102,24 @@ def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", text.lower())[:40].strip("_")
 
 
+def _prompt_topic() -> str | None:
+    """
+    Interactively ask the user for a topic.
+    Returns None if they press Enter with no input (AI picks).
+    """
+    print()
+    print("What should this Short be about?")
+    print("  Examples: '5 sleep hacks'  |  'why honey never expires'  |  'morning routines'")
+    print("  Press Enter to let Claude pick a topic automatically.")
+    print()
+    try:
+        raw = input("  Topic: ").strip()
+    except (EOFError, KeyboardInterrupt):
+        print()
+        raw = ""
+    return raw if raw else None
+
+
 def main() -> None:
     args = _parse_args()
 
@@ -126,18 +144,25 @@ def main() -> None:
 
     Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Resolve topic: explicit arg → queue → None (AI picks)
+    # Resolve topic: explicit arg → queue → interactive prompt → AI picks
     topic = args.topic
     if not topic and args.from_queue:
         topic = pop_next_topic()
         if topic:
             print(f"Topic from queue: {topic}  ({queue_length()} remaining)")
         else:
-            print("Queue empty — Claude will pick a topic")
+            print("Queue empty — falling back to interactive prompt")
+
+    if not topic:
+        topic = _prompt_topic()
 
     # ── 1. Generate script ───────────────────────────────────────────────────
+    print()
     print("=" * 50)
-    print("STEP 1 — Generating script with Claude …")
+    if topic:
+        print(f"STEP 1 — Generating script for: {topic} …")
+    else:
+        print("STEP 1 — Generating script (Claude picks the topic) …")
     from generator import generate_content
     content = generate_content(topic)
 
