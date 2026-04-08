@@ -1,0 +1,12 @@
+# Secrets
+.env
+.youtube_token.json
+client_secrets.json
+
+# Generated output
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
