@@ -2,7 +2,9 @@
 anthropic>=0.40.0
 
 # Text-to-Speech (Microsoft neural voices, free, no API key needed)
+# Falls back to pyttsx3+espeak-ng when offline (apt install espeak-ng)
 edge-tts>=6.1.9
+pyttsx3>=2.90
 
 # Video assembly
 moviepy>=1.0.3

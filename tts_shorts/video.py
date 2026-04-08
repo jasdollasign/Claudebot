@@ -195,8 +195,7 @@ def create_video(
         audio_codec="aac",
         preset="fast",
         ffmpeg_params=["-crf", "20"],
-        verbose=False,
-        logger=None,
+        logger=None,   # suppress moviepy progress bar (v2 uses "bar"|None)
     )
 
     return output_file
