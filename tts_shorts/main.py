@@ -11,6 +11,8 @@ Generates an original short-form video from scratch:
 Usage:
   python main.py "5 sleep hacks"
   python main.py --voice en-US-GuyNeural --upload
+  python main.py --queue-add "morning routines" "productivity tips"
+  python main.py --queue-status
   python main.py --help
 """
 
@@ -72,6 +74,26 @@ def _parse_args() -> argparse.Namespace:
         default=None,
         help="YouTube privacy (default: private). Only used with --upload.",
     )
+
+    # Queue management
+    queue_group = p.add_argument_group("topic queue")
+    queue_group.add_argument(
+        "--queue-add",
+        nargs="+",
+        metavar="TOPIC",
+        help="Add one or more topics to the queue file and exit",
+    )
+    queue_group.add_argument(
+        "--queue-status",
+        action="store_true",
+        help="Print queue length and exit",
+    )
+    queue_group.add_argument(
+        "--from-queue",
+        action="store_true",
+        help="Pop the next topic from topics_queue.txt instead of using the positional argument",
+    )
+
     return p.parse_args()
 
 
@@ -83,17 +105,41 @@ def _slug(text: str) -> str:
 def main() -> None:
     args = _parse_args()
 
+    # ── Queue management commands (no API key needed) ─────────────────────────
+    from topics import add_topic, queue_length, pop_next_topic
+
+    if args.queue_add:
+        for t in args.queue_add:
+            add_topic(t)
+            print(f"Queued: {t}")
+        print(f"Queue now has {queue_length()} topic(s).")
+        return
+
+    if args.queue_status:
+        n = queue_length()
+        print(f"Queue: {n} topic(s) remaining")
+        return
+
     if not Config.ANTHROPIC_API_KEY:
         print("Error: ANTHROPIC_API_KEY not set. Add it to tts_shorts/.env")
         sys.exit(1)
 
     Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Resolve topic: explicit arg → queue → None (AI picks)
+    topic = args.topic
+    if not topic and args.from_queue:
+        topic = pop_next_topic()
+        if topic:
+            print(f"Topic from queue: {topic}  ({queue_length()} remaining)")
+        else:
+            print("Queue empty — Claude will pick a topic")
+
     # ── 1. Generate script ───────────────────────────────────────────────────
     print("=" * 50)
     print("STEP 1 — Generating script with Claude …")
     from generator import generate_content
-    content = generate_content(args.topic)
+    content = generate_content(topic)
 
     print(f"  Topic  : {content['topic']}")
     print(f"  Title  : {content['title']}")

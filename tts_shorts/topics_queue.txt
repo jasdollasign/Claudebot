@@ -1,0 +1,20 @@
+# YouTube Shorts topic queue
+# One topic per line. Lines starting with # are ignored.
+# The scheduler and `python main.py --from-queue` consume topics top-to-bottom.
+# Add new topics with: python main.py --queue-add "your topic here"
+
+5 foods that burn belly fat
+surprising facts about sleep
+morning habits of successful people
+why cold showers change your brain
+things you didn't know about honey
+how to remember everything you read
+the 2 minute rule that fixes procrastination
+why walking 10000 steps actually matters
+foods that boost your mood instantly
+the science of habit formation
+why you feel tired after eating
+how to fall asleep in 2 minutes
+surprising uses for baking soda
+the truth about multitasking
+what happens to your body without sleep
