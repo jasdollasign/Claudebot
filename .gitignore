@@ -1,0 +1,5 @@
+clawd_env/
+agents/booking_agent/data/
+agents/booking_agent/.env
+**/__pycache__/
+**/*.pyc
