@@ -18,7 +18,7 @@ def _generate_anthropic(system: str, user_prompt: str) -> str:
     client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
     message = client.messages.create(
         model=Config.ANTHROPIC_MODEL,
-        max_tokens=1024,
+        max_tokens=700,
         system=system,
         messages=[{"role": "user", "content": user_prompt}],
     )
@@ -33,7 +33,7 @@ def _generate_openrouter(system: str, user_prompt: str) -> str:
     )
     response = client.chat.completions.create(
         model=Config.OPENROUTER_MODEL,
-        max_tokens=1024,
+        max_tokens=700,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
