@@ -12,7 +12,7 @@ class Config:
 
     # Model names per provider
     ANTHROPIC_MODEL: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
-    OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4.5")
+    OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-r1:free")
 
     # TTS
     TTS_VOICE: str = os.getenv("TTS_VOICE", "en-US-AriaNeural")
